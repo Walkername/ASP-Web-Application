@@ -129,11 +129,12 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-
-                user.FirstName = Input.FirstName;
-                user.LastName = Input.LastName;
-                user.Age = Input.Age;
+                var user = new AppUser
+                {
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    Age = Input.Age
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
