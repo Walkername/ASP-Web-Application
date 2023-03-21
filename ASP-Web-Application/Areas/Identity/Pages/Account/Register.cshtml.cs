@@ -86,7 +86,7 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account
             [Range(14, int.MaxValue, ErrorMessage = "The age should be greater than 14 years")]
             [RegularExpression("^[0-9]+$", ErrorMessage = "Incorrect symbols: need to write your age")]
             [Display(Name = "Age")]
-            public string Age { get; set; }
+            public int Age { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -133,7 +133,7 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account
 
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                user.Age = int.Parse(Input.Age);
+                user.Age = Input.Age;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
