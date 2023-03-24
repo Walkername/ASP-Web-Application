@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using ASP_Web_Application.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -54,10 +55,15 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account.Manage
         {
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
+
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
+
             [Display(Name = "Age")]
             public int Age { get; set; }
+
+            [Display(Name = "Profile Picture")]
+            public byte[] ProfilePicture { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -74,6 +80,7 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account.Manage
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var age = user.Age;
+            var profilePicture = user.ProfilePicture;
 
             Username = userName;
 
@@ -82,7 +89,8 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 FirstName = firstName,
                 LastName = lastName,
-                Age = age
+                Age = age,
+                ProfilePicture = profilePicture
             };
         }
 
@@ -116,6 +124,7 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account.Manage
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var age = user.Age;
+
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -138,6 +147,16 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account.Manage
             if (Input.Age != age)
             {
                 user.Age = Input.Age;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    user.ProfilePicture = dataStream.ToArray();
+                }
                 await _userManager.UpdateAsync(user);
             }
 
