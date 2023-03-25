@@ -26,7 +26,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-app.MapGet("/profilepictures", async (ApplicationDbContext db) => 
+app.MapGet("/userprofiles", async (ApplicationDbContext db) => 
     await db.Users.ToListAsync());
 
 // Configure the HTTP request pipeline.
