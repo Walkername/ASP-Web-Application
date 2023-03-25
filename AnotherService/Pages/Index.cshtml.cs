@@ -20,7 +20,7 @@ namespace AnotherService.Pages
 
         public async Task OnGetAsync()
         {
-            var response = await _httpClient.GetAsync($"/profilepictures/");
+            var response = await _httpClient.GetAsync($"/userprofiles/");
             if (response.IsSuccessStatusCode)
             {
                 AppUsers = await response.Content.ReadFromJsonAsync<List<AppUser>>() ?? new List<AppUser>();
