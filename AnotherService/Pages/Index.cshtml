@@ -1,0 +1,49 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+    <h1 class="display-4">Personal Data</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>ProfilePicture</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var appUser in Model.AppUsers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => appUser.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => appUser.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => appUser.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => appUser.Email)
+                </td>
+                <td>
+                    @if (appUser.ProfilePicture != null)
+                    {
+                        <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(appUser.ProfilePicture))">
+                    }
+                    else
+                    {
+                        <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="">
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+

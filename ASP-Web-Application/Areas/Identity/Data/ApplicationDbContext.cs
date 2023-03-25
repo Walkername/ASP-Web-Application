@@ -23,6 +23,8 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
 
         builder.ApplyConfiguration(new AppUserEntityConfiguration());
     }
+
+    public DbSet<AppUser> Users => Set<AppUser>();
 }
 
 public class AppUserEntityConfiguration : IEntityTypeConfiguration<AppUser>
@@ -33,3 +35,4 @@ public class AppUserEntityConfiguration : IEntityTypeConfiguration<AppUser>
         builder.Property(u => u.LastName).HasMaxLength(20);
     }
 }
+
