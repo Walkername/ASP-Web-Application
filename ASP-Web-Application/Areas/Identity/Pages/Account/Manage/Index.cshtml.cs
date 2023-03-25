@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Diagnostics.EventFlow;
 
 namespace ASP_Web_Application.Areas.Identity.Pages.Account.Manage
 {
@@ -92,6 +93,14 @@ namespace ASP_Web_Application.Areas.Identity.Pages.Account.Manage
                 Age = age,
                 ProfilePicture = profilePicture
             };
+
+            // EventFlow pipeline example
+            using (var pipeline = DiagnosticPipelineFactory.CreatePipeline("PackageRoot/Config/eventFlowConfig.json"))
+            {
+                System.Diagnostics.Trace.TraceWarning("EventFlow is working!");
+                Console.WriteLine("Trace sent to StdOutput. Press any key to exit...");
+                Console.ReadKey(intercept: true);
+            }
         }
 
         public async Task<IActionResult> OnGetAsync()
